@@ -1,0 +1,57 @@
+<div>
+  <h1 class="ui center aligned icon header">
+    <i class="fa fa-book" style="font-size:48px;color:red;align-items: center;">Phonebook</i>
+  </h1>
+    <mat-table #table [dataSource]="contactList" matSort class="mat-cell">
+   
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+          <mat-cell *matCellDef="let row" >{{row.id}}</mat-cell>
+        </ng-container>
+    
+        <ng-container matColumnDef="firstName">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>FirstName</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.firstName}}</mat-cell>
+        </ng-container>
+    
+        <ng-container matColumnDef="lastName">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>LastName</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.lastName}}</mat-cell>
+        </ng-container>
+    
+        <ng-container matColumnDef="phone">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Phone</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.phone}}</mat-cell>
+        </ng-container>
+    
+        <!-- actions -->
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef> 
+            <button mat-icon-button color="primary" (click)="actionHandler(actionType.ADD)" >
+              <mat-icon aria-label="Example icon-button with a heart icon" >Add Contact</mat-icon>
+            </button>
+          </mat-header-cell> 
+    
+          <mat-cell *matCellDef="let row; let i=index;">
+            <button mat-icon-button color="accent" (click)="actionHandler(actionType.UPDATE,row)">
+              <mat-icon aria-label="Edit">Edit | </mat-icon>
+            </button>
+    
+            <button mat-icon-button color="accent" (click)="actionHandler(actionType.DELETE,row)">
+              <mat-icon aria-label="Delete">Delete</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+    
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    
+      </mat-table>
+    
+      <!-- No records -->
+
+      <div class="no-results" *ngIf="contactList.length < 1">
+        No records found
+      </div>
+    
+</div>
