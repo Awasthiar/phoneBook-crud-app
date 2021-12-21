@@ -1,20 +1,12 @@
 <div class="container">
-    <h3 mat-dialog-title>Edit Contact: {{data.firstName}}</h3>
+    <h3 mat-dialog-title>{{action | titlecase}} Contact: {{data.contact.firstName}}</h3>
   
     <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm">
-  
-      <div class="form">
-        <mat-form-field color="accent" appearance="fill">
-          <mat-label>Id: </mat-label>
-          <input matInput #input class="form-control" placeholder="Id" [(ngModel)]="data.id" name="id" required > 
-          <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
-        </mat-form-field>
-      </div>
-  
+
       <div class="form">
         <mat-form-field color="accent" appearance="fill">
             <mat-label>First Name: </mat-label>
-          <input matInput #input class="form-control" placeholder="First Name" [(ngModel)]="data.firstName" name="firstName" required >
+          <input matInput #input class="form-control" placeholder="First Name" [(ngModel)]="duplicateData.firstName" name="firstName" required >
           <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
         </mat-form-field>
       </div>
@@ -22,7 +14,7 @@
       <div class="form">
         <mat-form-field color="accent" appearance="fill">
           <mat-label>Last Name: </mat-label>
-          <input matInput #inputstate class="form-control" placeholder="Last Name" [(ngModel)]="data.lastName" name="lastName" required >
+          <input matInput #inputstate class="form-control" placeholder="Last Name" [(ngModel)]="duplicateData.lastName" name="lastName" required >
           <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
         </mat-form-field>
       </div>
@@ -30,7 +22,7 @@
       <div class="form">
           <mat-form-field color="accent" appearance="fill" >
             <mat-label>Mobile No: </mat-label>
-            <input matInput placeholder="Mobile No" [(ngModel)]="data.phone" name="phone" maxlength="10" minlength="10" required>
+            <input matInput placeholder="Mobile No" [(ngModel)]="duplicateData.phone" name="phone" maxlength="10" minlength="10" required>
               <mat-error >Mobile Number should be of 10 digits.</mat-error>
           </mat-form-field>
       </div>

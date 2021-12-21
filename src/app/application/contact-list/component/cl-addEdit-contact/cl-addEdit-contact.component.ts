@@ -2,18 +2,23 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Component, Inject} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import { ContactListDataService } from '../../service';
+import { ContactDialogModel } from '../../model';
+import { ACTION_TYPE } from '../../enum';
 
 @Component({
-  selector: 'cl-edit-contact',
-  templateUrl: './cl-edit-contact.component.html',
-  styleUrls: ['./cl-edit-contact.component.css']
+  selector: 'cl-addEdit-contact',
+  templateUrl: './cl-addEdit-contact.component.html',
+  styleUrls: ['./cl-addEdit-contact.component.css']
 })
-export class ClEditContactComponent {
+export class ClAddEditContactComponent {
 
-  constructor(public dialogRef: MatDialogRef<ClEditContactComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any, public clService: ContactListDataService) { }
+  constructor(public dialogRef: MatDialogRef<ClAddEditContactComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: ContactDialogModel, public clService: ContactListDataService) { }
 
   formControl = new FormControl('', [Validators.required, Validators.minLength(10)]);
+  duplicateData = {...this.data.contact};
+  action = this.data.action;
+  actionType = ACTION_TYPE;
 
   getErrorMessage() {
     return this.formControl.hasError('required') ? 'Required field' :
@@ -30,6 +35,6 @@ export class ClEditContactComponent {
   }
 
   updateContact(): void {
-        this.dialogRef.close(this.data);
+    this.dialogRef.close(this.duplicateData);
   }
 }

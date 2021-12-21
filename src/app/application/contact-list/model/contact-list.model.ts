@@ -1,5 +1,8 @@
-export class ContactListResponse {
-   // data: ContactListData[] = []
+import { ACTION_TYPE } from "../enum";
+
+export class ContactDialogModel{
+    contact?: ContactListData;
+    action?: ACTION_TYPE
 }
 
 export class ContactListData {

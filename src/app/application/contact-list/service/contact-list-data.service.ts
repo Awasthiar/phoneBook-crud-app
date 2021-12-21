@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ContactListResponse } from '../model';
+import { ContactListData } from '../model';
 import { ContactListEndpointService } from './contact-list-endpoint.service';
 
 
@@ -15,8 +15,8 @@ export class ContactListDataService {
     ) { }
     
 
-    fetchContactDetails(): Observable<ContactListResponse>{
-        return this._http.get<ContactListResponse>(`https://${this._endPoint.getContactDetails()}`)
+    fetchContactDetails(): Observable<ContactListData[]>{
+        return this._http.get<ContactListData[]>(`https://${this._endPoint.getContactDetails()}`)
     }
 
 }

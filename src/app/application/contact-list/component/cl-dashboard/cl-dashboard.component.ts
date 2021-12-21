@@ -1,12 +1,11 @@
     import { Component, OnInit, ViewChild } from "@angular/core";
     import { MatDialog } from "@angular/material/dialog";
     import { MatTable } from "@angular/material/table";
-    import { ClAddContactComponent } from "..";
     import { ACTION_TYPE } from "../../enum";
 
-    import { ContactListData } from "../../model";
+    import { ContactDialogModel, ContactListData } from "../../model";
     import { ContactListDataService } from "../../service";
-    import { ClEditContactComponent } from "../cl-edit-contact/cl-edit-contact.component";
+import { ClAddEditContactComponent } from "../cl-addEdit-contact/cl-addEdit-contact.component";
 
     @Component({
         selector: 'app-cl-dashboard',
@@ -19,6 +18,7 @@
         actionType = ACTION_TYPE;
         displayedColumns: string[] = ['id','firstName', 'lastName', 'phone','actions'];
         showContactListTable: boolean = false;
+        contactDialogData = new ContactDialogModel()
         @ViewChild(MatTable,{static:true}) table: MatTable<any>;
 
         constructor(
@@ -55,34 +55,30 @@
         }
 
 
-        openAddDialog() {
-            const dialogRef = this.dialogService.open(ClAddContactComponent, {
-            data: this.contactList
+        openAddDialog(action: ACTION_TYPE) {
+            const dialogRef = this.dialogService.open(ClAddEditContactComponent, {
+            data: {contact:{},action:action}
             });
         
             dialogRef.afterClosed().subscribe(result => {
                 if(result)
-                this.contactList.push(result)
+                result.id = this.contactList.length + 1;
+                this.contactList.push(result);
                 this.table.renderRows();
             });
         }
 
-        openEditDialog(actionOn: ContactListData) {            
-            const dialogRef = this.dialogService.open(ClEditContactComponent, {
-                data: actionOn
+        openEditDialog(action: ACTION_TYPE, actionOn: ContactListData) {            
+            const dialogRef = this.dialogService.open(ClAddEditContactComponent, {
+                data: {contact:actionOn,action:action}
             });
         
             dialogRef.afterClosed().subscribe(result => {                
                 if(result){
-                    this.contactList = this.contactList.filter((value,key)=>{
-                        if(value.id == result.id){
-                        value.firstName = result.firstName;
-                        value.lastName = result.lastName;
-                        value.phone = result.phone;
-                        }
-                        return true;
-                    }) 
-                
+                    let contact = this.contactList.find((value,key) => value.id == result.id)
+                    contact.firstName = result.firstName;
+                    contact.lastName = result.lastName;
+                    contact.phone = result.phone;
                 }
             
             })
@@ -91,10 +87,10 @@
         actionHandler(action:ACTION_TYPE,actionOn?:ContactListData){
             switch(action){
                 case ACTION_TYPE.ADD:
-                    this.openAddDialog();
+                    this.openAddDialog(action);
                     break;
                 case ACTION_TYPE.UPDATE:
-                    this.openEditDialog(actionOn);
+                    this.openEditDialog(action,actionOn);
                     break;
                 case ACTION_TYPE.DELETE:
                     this.deleteContact(actionOn);
